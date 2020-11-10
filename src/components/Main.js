@@ -34,7 +34,7 @@ export default function Main(props) {
       </section>
 
       <section className="elements">
-        {cards.map(card => <Card card={card} onClick={props.onCardClick} />)}
+        {cards.map(card => <Card card={card} onCardClick={props.onCardClick} />)}
       </section>
     </main>
   )
