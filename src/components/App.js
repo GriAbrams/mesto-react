@@ -4,7 +4,6 @@ import Main from './Main';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
-import { api } from '../utils/Api';
 
 export default function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false);
@@ -44,11 +43,11 @@ export default function App() {
       <PopupWithForm name='edit' title='Редактировать профиль' buttonText='Сохранить' isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} children={
         <>
           <label className="popup__label">
-            <input type="text" className="popup__input" id="user-name" name="name" minLength="2" maxLength="40" required />
+            <input type="text" className="popup__input" id="user-name" name="name" placeholder="Ваше имя" minLength="2" maxLength="40" required />
             <span className="popup__input-error" id="user-name-error"></span>
           </label>
           <label className="popup__label">
-            <input type="text" className="popup__input" id="about" name="about" minLength="2" maxLength="200" required />
+            <input type="text" className="popup__input" id="about" name="about" placeholder="Расскажите о себе" minLength="2" maxLength="200" required />
             <span className="popup__input-error" id="about-error"></span>
           </label>
         </>

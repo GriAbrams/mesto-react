@@ -15,8 +15,8 @@ export default function Main(props) {
         setuserDescription(userData.about);
         setuserAvatar(userData.avatar);
         setCards(cards);
-      }).catch((err) => console.log(err))
-    })
+      }).catch((err) => console.log(err));
+    }, []);
 
   return (
     <main className="content">
@@ -34,7 +34,7 @@ export default function Main(props) {
       </section>
 
       <section className="elements">
-        {cards.map(card => <Card card={card} onCardClick={props.onCardClick} />)}
+        {cards.map(card => <Card card={card} key={card._id} onCardClick={props.onCardClick} />)}
       </section>
     </main>
   )
