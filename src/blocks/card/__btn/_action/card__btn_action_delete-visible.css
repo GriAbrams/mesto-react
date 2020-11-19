@@ -1,4 +1,4 @@
-.card__btn_action_delete {
+.card__btn_action_delete-visible {
   content: '';
   background: url(../../../../images/delete-btn-image.svg) center no-repeat;
   width: 18px;

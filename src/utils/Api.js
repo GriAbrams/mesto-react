@@ -28,7 +28,7 @@ class Api {
     });
   }
 
-  editUserInfo(data) {
+  setUserInfo(data) {
     return this._sendRequest(`${this._url}/users/me`, {
       method: 'PATCH',
       headers: this._headers,
@@ -57,18 +57,18 @@ class Api {
     });
   }
 
-  putCardLike(cardId) {
-    return this._sendRequest(`${this._url}/cards/likes/${cardId}`, {
-      method: 'PUT',
-      headers: this._headers
-    });
-  }
-
-  deleteCardLike(cardId) {
-    return this._sendRequest(`${this._url}/cards/likes/${cardId}`, {
-      method: 'DELETE',
-      headers: this._headers
-    });
+  changeLikeCardStatus(card, like) {
+    if (like) {
+      return this._sendRequest(`${this._url}/cards/likes/${card}`, {
+        method: 'DELETE',
+        headers: this._headers
+      });
+    } else {
+      return this._sendRequest(`${this._url}/cards/likes/${card}`, {
+        method: 'PUT',
+        headers: this._headers
+      });
+    }
   }
 
   editUserAvatar(data) {
