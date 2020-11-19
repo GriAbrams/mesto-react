@@ -5,6 +5,14 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 export default function Main(props) {
   const currentUser = React.useContext(CurrentUserContext);
 
+  if (props.cards.length === 0) {
+    return (
+      <main className="content">
+        <div className="content__loader"></div>
+      </main>
+    )
+  }
+
   return (
     <main className="content">
       <section className="profile">

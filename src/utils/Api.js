@@ -75,9 +75,7 @@ class Api {
     return this._sendRequest(`${this._url}/users/me/avatar`, {
       method: 'PATCH',
       headers: this._headers,
-      body: JSON.stringify({
-        avatar: data.link
-      })
+      body: JSON.stringify(data)
     });
   }
 }

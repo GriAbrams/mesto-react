@@ -7,6 +7,11 @@ export default function EditProfilePopup(props) {
 
   const [name, setName] = React.useState('');
   const [description, setDescription] = React.useState('');
+  const [buttonText, setButtonText] = React.useState('');
+
+  React.useEffect(() => {
+    setButtonText('Сохранить');
+  }, [props.isOpen]);
 
   function handleNameChange(evt) {
     setName(evt.target.value);
@@ -18,6 +23,7 @@ export default function EditProfilePopup(props) {
 
   function handleSubmit(evt) {
     evt.preventDefault();
+    setButtonText('Сохранение...');
     props.onUpdateUser({
       name,
       about: description,
@@ -33,9 +39,10 @@ export default function EditProfilePopup(props) {
     <PopupWithForm
       name='edit'
       title='Редактировать профиль'
-      buttonText='Сохранить'
+      buttonText={buttonText}
       isOpen={props.isOpen}
       onClose={props.onClose}
+      onOverlayClick={props.onOverlayClick}
       onSubmit={handleSubmit}
       children={
         <>

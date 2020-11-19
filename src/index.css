@@ -44,3 +44,5 @@
 @import url(./blocks/popup/__btn/_type/popup__btn_type_disabled.css);
 @import url(./blocks/popup/_action/popup_action_opened.css);
 @import url(./blocks/popup/__img/popup__img.css);
+@import url(./blocks/content/content.css);
+@import url(./blocks/content/__loader/content__loader.css);

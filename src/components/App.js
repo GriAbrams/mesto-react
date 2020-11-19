@@ -2,11 +2,11 @@ import React from 'react'
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
-import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
+import SubmitPopup from './SubmitPopup';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import { api } from '../utils/Api';
 
@@ -26,20 +26,27 @@ export default function App() {
     setEditAvatarPopupOpen(true);
   }
 
-  const [isImagePopupOpen, setImagePopupOpen] = React.useState(false);
+  const [selectedCard, setSelectedCard] = React.useState('');
 
-  const [selectedCard, setSelectedCard] = React.useState(null);
+  const [isImagePopupOpen, setImagePopupOpen] = React.useState(false);
   function handleCardClick(card) {
     setSelectedCard(card);
     setImagePopupOpen(true);
+  }
+
+  const [isSubmitPopupOpen, setSubmitPopupOpen] = React.useState(false);
+  function handleDeleteClick(card) {
+    setSelectedCard(card);
+    setSubmitPopupOpen(true);
   }
 
   function closeAllPopups() {
     setEditProfilePopupOpen(false);
     setAddPlacePopupOpen(false);
     setEditAvatarPopupOpen(false);
+    setSelectedCard('');
     setImagePopupOpen(false);
-    setSelectedCard(null);
+    setSubmitPopupOpen(false);
   }
 
   const [currentUser, setCurrentUser] = React.useState({});
@@ -67,6 +74,7 @@ export default function App() {
     .then(() => {
       const newCards = cards.filter((c) => c !== card);
       setCards(newCards);
+      closeAllPopups();
     }).catch((err) => console.log(err));
   }
 
@@ -91,8 +99,26 @@ export default function App() {
     .then((newCard) => {
       setCards([newCard, ...cards]);
       closeAllPopups();
-    })
+    }).catch((err) => console.log(err))
   }
+
+  function handleCloseOverlayClick(evt) {
+    if (evt.target === evt.currentTarget) { 
+      closeAllPopups(); 
+    } 
+  }
+
+  React.useEffect(() => {
+    function handleEscClose(evt) {
+      if (evt.key === 'Escape') {
+        closeAllPopups(); 
+      }
+    }
+    document.addEventListener('keydown', handleEscClose);
+    return () => {
+      document.removeEventListener('keydown', handleEscClose);
+    }
+  })
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -106,7 +132,7 @@ export default function App() {
             onEditAvatar={handleEditAvatarClick}
             onCardClick={handleCardClick}
             onCardLike={handleCardLike}
-            onCardDelete={handleCardDelete}
+            onCardDelete={handleDeleteClick}
             />
           <Footer />
         </div>
@@ -114,26 +140,32 @@ export default function App() {
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
+          onOverlayClick={handleCloseOverlayClick}
         />
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
           onAddPlace={handleAddPlaceSubmit}
+          onOverlayClick={handleCloseOverlayClick}
         />
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
+          onOverlayClick={handleCloseOverlayClick}
         />
-        <PopupWithForm
-          name='confirm'
-          title='Вы уверены?'
-          buttonText='Да'
+        <SubmitPopup 
+          card={selectedCard}
+          isOpen={isSubmitPopupOpen}
+          onClose={closeAllPopups}
+          onCardDelete={handleCardDelete}
+          onOverlayClick={handleCloseOverlayClick}
         />
         <ImagePopup
           card={selectedCard}
           isOpen={isImagePopupOpen}
           onClose={closeAllPopups}
+          onOverlayClick={handleCloseOverlayClick}
         />
       </div>
     </CurrentUserContext.Provider>

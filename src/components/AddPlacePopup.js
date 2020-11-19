@@ -4,6 +4,13 @@ import PopupWithForm from './PopupWithForm';
 export default function AddPlacePopup(props) {
   const [name, setName] = React.useState('');
   const [link, setLink] = React.useState('');
+  const [buttonText, setButtonText] = React.useState('');
+
+  React.useEffect(() => {
+    setName('');
+    setLink('');
+    setButtonText('Создать');
+  }, [props.isOpen]);
 
   function handleAddTitle(evt) {
     setName(evt.target.value);
@@ -15,6 +22,7 @@ export default function AddPlacePopup(props) {
 
   function handleSubmit(evt) {
     evt.preventDefault();
+    setButtonText('Создание...')
     props.onAddPlace({
       name,
       link
@@ -26,9 +34,10 @@ export default function AddPlacePopup(props) {
     <PopupWithForm
       name='add'
       title='Новое место'
-      buttonText='Создать'
+      buttonText={buttonText}
       isOpen={props.isOpen}
       onClose={props.onClose}
+      onOverlayClick={props.onOverlayClick}
       onSubmit={handleSubmit}
       children={
         <>
